@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+    <!-- Logging Properties -->
+    <Properties>
+        <Property name="LOG_PATTERN">[%d][%-5p][%t][%c][%l]%x %m%n</Property>
+        <Property name="APP_LOG_ROOT">log</Property>
+        <Property name="ROOT_LOG_PATH">./log</Property>
+        <Property name="MONITOR_LOG_FILE_NAME">${ROOT_LOG_PATH}/monitor/monitor.log</Property>
+        <Property name="MONITOR_LOG_PATTERN">%m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="unmatchLogger">
+            <fileName>${APP_LOG_ROOT}/unmatch.log</fileName>
+            <filePattern>${APP_LOG_ROOT}/unmatch/unmatch.log-%d{yyyy-MM-dd-HH}</filePattern>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2400"/>
+        </RollingFile>
+
+        <RollingFile name="matchLogger">
+            <fileName>${APP_LOG_ROOT}/match.log</fileName>
+            <filePattern>${APP_LOG_ROOT}/match/match.log-%d{yyyy-MM-dd-HH}</filePattern>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2400"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="biz" level="DEBUG"/>
+            <AppenderRef ref="stdout" level="INFO"/>
+        </Root>
+        <Logger name="UNMATCH" level="all" additivity="false">
+            <AppenderRef ref="unmatchLogger" level="info"/>
+        </Logger>
+        <Logger name="MATCH" level="all" additivity="false">
+            <AppenderRef ref="matchLogger" level="info"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>
