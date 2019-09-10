@@ -33,7 +33,7 @@ public class SyrupEcho {
         }
     }
 
-    static String decodeHexString(String s) throws DecoderException {
+    private static String decodeHexString(String s) throws DecoderException {
         return new String(Hex.decodeHex(s.toCharArray()));
     }
 }
